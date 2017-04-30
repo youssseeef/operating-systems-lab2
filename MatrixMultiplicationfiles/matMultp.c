@@ -11,20 +11,30 @@ int A[X][Y];
 int B[Y][Z];
 int C[X][Z];
 
+
+
 /*** functions for non threaded multiplications ****/
 int dotProduct(int r, int c)
 // r and c are the row and coloumn of matrices A and B, respectively
 {
 	printf("dotProduct function is not implemented yet\n");
 	// Calculate the dot product of the row r from A with the column c from B
-	
+
+	int i, sum = 0;
+	// loop over the rows of A and the columns of B
+	for(i = 0; i < Y; i++) {
+		sum += (A[r][i] * B[i][c]);
+	}
+	return sum;
 }
 void nonThreadedMatMult()
 {
 	printf("nonThreadedMatMult function is not implemented yet\n");
+
+	printf("%d\n ", dotProduct(1, 1));
 	// Loop over every point in the matrix C and calculate it by calling
 	// the dot product fuction
-	
+
 	// Print the elements of C
 }
 
@@ -33,7 +43,7 @@ void nonThreadedMatMult()
 
 struct thread_data
 {
-	// You may need this fill this struct to pass and receive data from 
+	// You may need this fill this struct to pass and receive data from
 	// threads
 };
 struct thread_data thread_data_array[X*Z];
@@ -57,7 +67,7 @@ void threadedMatMultPerElement()
 
 	// Join the X*Z threads
 
-	// Print the elements of C	
+	// Print the elements of C
 }
 
 /*** functions for threaded row multiplications ****/
@@ -81,6 +91,6 @@ int main(int argc, char *argv[])
 	nonThreadedMatMult();
 	threadedMatMultPerElement();
 	threadedMatMultPerRow();
-	
+
 	return 0;
 }
