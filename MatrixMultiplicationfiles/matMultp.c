@@ -23,8 +23,8 @@ int dotProduct(int r, int c)
 
 	int i, sum = 0;
 	// loop over the rows of A and the columns of B
-	for(i = 1; i <= Y; i++) {
-		printf("%d \n", B[1][1] );
+	for(i = 0; i < Y; i++) {
+		printf("%d \n", B[0][0] );
 		sum += (A[r][i] * B[i][c]);
 	}
 	return sum;
