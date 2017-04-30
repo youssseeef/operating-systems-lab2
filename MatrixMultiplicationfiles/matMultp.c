@@ -18,22 +18,28 @@ int C[X][Z];
 int dotProduct(int r, int c)
 // r and c are the row and coloumn of matrices A and B, respectively
 {
-	printf("dotProduct function is not implemented yet\n");
+	//printf("dotProduct function is not implemented!\n");
 	// Calculate the dot product of the row r from A with the column c from B
 
 	int i, sum = 0;
 	// loop over the rows of A and the columns of B
 	for(i = 0; i < Y; i++) {
-		printf("%d \n", B[0][0] );
+		//printf("%d \n", B[0][0] );
 		sum += (A[r][i] * B[i][c]);
 	}
 	return sum;
 }
 void nonThreadedMatMult()
 {
-	printf("nonThreadedMatMult function is not implemented yet\n");
-
-	printf("%d\n ", dotProduct(0, 0));
+	//printf("nonThreadedMatMult function is not implemented yet\n");
+	int i,j =0;
+	for(i =0; i<X; i++){
+		for(j =0; j<Y; j++){
+			C[i][j] = dotProduct(i,j);
+			printf("%d\n",C[i][j]);
+		}
+	}
+	//printf("%d\n ", dotProduct(0, 0));
 	// Loop over every point in the matrix C and calculate it by calling
 	// the dot product fuction
 
