@@ -1,0 +1,3 @@
+gcc -c shell_project.c
+gcc shell_project.c -o shell_project
+./shell_project
