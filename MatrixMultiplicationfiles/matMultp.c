@@ -7,12 +7,10 @@
 #define Y 3
 #define Z 2
 
-int A[X][Y];
-int B[Y][Z];
+int A[X][Y] = {{1,2,3},{4,5,6}};
+int B[Y][Z] = {{7,8},{9,10},{11,12}};
 int C[X][Z];
 
-A[X][Y]  = {{1,2,3},{4,5,6}};
-B[Y][Z] = {{7,8},{9,10},{11,12}};
 
 
 
@@ -84,13 +82,13 @@ void threadedMatMultPerRow()
 
 int main(int argc, char *argv[])
 {
-	int i, j;
-	for (i= 0;i<X;++i)
-		for (j= 0;j<Y;++j)
-			A[i][j] = i * Y + j;
-	for (i= 0;i<Y;++i)
-		for (j= 0;j<Z;++j)
-			B[i][j] = i * Z + j;
+	// int i, j;
+	// for (i= 0;i<X;++i)
+	// 	for (j= 0;j<Y;++j)
+	// 		A[i][j] = i * Y + j;
+	// for (i= 0;i<Y;++i)
+	// 	for (j= 0;j<Z;++j)
+	// 		B[i][j] = i * Z + j;
 
 	nonThreadedMatMult();
 	threadedMatMultPerElement();
