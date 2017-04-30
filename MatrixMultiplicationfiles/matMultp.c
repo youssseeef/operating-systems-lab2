@@ -3,13 +3,16 @@
 #include <pthread.h>
 
 /* number of matrix columns and rows */
-#define X 3
-#define Y 4
-#define Z 5
+#define X 2
+#define Y 3
+#define Z 2
 
 int A[X][Y];
 int B[Y][Z];
 int C[X][Z];
+
+A[X][Y]  = {{1,2,3},{4,5,6}};
+B[Y][Z] = {{7,8},{9,10},{11,12}};
 
 
 
@@ -22,7 +25,8 @@ int dotProduct(int r, int c)
 
 	int i, sum = 0;
 	// loop over the rows of A and the columns of B
-	for(i = 0; i < Y; i++) {
+	for(i = 1; i <= Y; i++) {
+		printf("%d \n", B[1][1] );
 		sum += (A[r][i] * B[i][c]);
 	}
 	return sum;
@@ -31,7 +35,7 @@ void nonThreadedMatMult()
 {
 	printf("nonThreadedMatMult function is not implemented yet\n");
 
-	printf("%d\n ", dotProduct(1, 1));
+	printf("%d\n ", dotProduct(0, 0));
 	// Loop over every point in the matrix C and calculate it by calling
 	// the dot product fuction
 
