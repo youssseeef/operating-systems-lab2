@@ -1,3 +1,3 @@
-gcc -c matMultp.c
+gcc -pthread -c matMultp.c
 gcc matMultp.c -o matMultp
 ./matMultp
