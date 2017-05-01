@@ -98,7 +98,7 @@ void threadedMatMultPerElement()
 		// create the thread workers
     int i;
     for(i = 0; i < X * Z ; i++){
-			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)thread_data_array[i]);
+			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)&thread_data_array[i]);
        if (error) {
           printf("ERROR; return code from pthread_create() is %d\n", error);
           exit(-1);
