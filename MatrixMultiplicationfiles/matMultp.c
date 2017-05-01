@@ -53,6 +53,12 @@ struct thread_data
 {
 	// You may need this fill this struct to pass and receive data from
 	// threads
+	//output row;
+	int row;
+	//output column;
+	int column;
+	//value of row
+	int value;
 };
 struct thread_data thread_data_array[X*Z];
 
@@ -70,8 +76,16 @@ void threadedMatMultPerElement()
 {
 	printf("threadedMatMultPerElement function is not implemented yet\n");
 	pthread_t threads[X*Z];
-
 	// Create X*Z threads and pass the appropriate threadArgs to it
+
+	int i= 0;
+	for(int i =0; i<X*Z; i++){
+		 error = pthread_create(&thread[i], &attr, dotProductThreadElem, (void *)threadArgs);
+       if (error) {
+          printf("ERROR; return code from pthread_create() is %d\n", error);
+          exit(-1);
+          }
+	}
 
 	// Join the X*Z threads
 
