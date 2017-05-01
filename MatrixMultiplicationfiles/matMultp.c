@@ -76,15 +76,15 @@ void threadedMatMultPerElement()
 {
 	pthread_attr_t attr;
 	/* Initialize and set thread detached attribute */
-    pthread_attr_init(&attr);
-    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+	pthread_attr_init(&attr);
+	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
-    printf("threadedMatMultPerElement function is not implemented yet\n");
+    printf("threadedMatMultPerElement function\n");
     pthread_t threads[X*Z];
 
-    int i= 0;
-    for(int i =0; i<X*Z; i++){
-         error = pthread_create(&thread[i], &attr, dotProductThreadElem, (void *)threadArgs);
+    int i = 0;
+    for(int i = 0; i < X*Z ; i++){
+         error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)threadArgs);
        if (error) {
           printf("ERROR; return code from pthread_create() is %d\n", error);
           exit(-1);
