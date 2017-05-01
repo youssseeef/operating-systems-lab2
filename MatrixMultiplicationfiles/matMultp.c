@@ -70,8 +70,16 @@ void threadedMatMultPerElement()
 {
 	printf("threadedMatMultPerElement function is not implemented yet\n");
 	pthread_t threads[X*Z];
+	int i;
 
 	// Create X*Z threads and pass the appropriate threadArgs to it
+	for(i=0; i < X*Z; i++) {
+       error = pthread_create(&thread[i], &attr, dotProductThreadElem, (void *)threadArgs);
+       if (error) {
+          printf("ERROR; return code from pthread_create() is %d\n", error);
+          exit(-1);
+          }
+       }
 
 	// Join the X*Z threads
 
