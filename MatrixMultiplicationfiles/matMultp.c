@@ -134,7 +134,7 @@ int main(int argc, char *argv[])
     nonThreadedMatMult();
     threadedMatMultPerElement();
     threadedMatMultPerRow();
-
+	printf("%d\n",thread_data_array[1].value);
     return 0;
 }
 
