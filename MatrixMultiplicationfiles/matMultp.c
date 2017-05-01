@@ -74,6 +74,11 @@ void *dotProductThreadElem(void *threadArgs)
 
 void threadedMatMultPerElement()
 {
+	pthread_attr_t attr;
+	/* Initialize and set thread detached attribute */
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+
     printf("threadedMatMultPerElement function is not implemented yet\n");
     pthread_t threads[X*Z];
 
