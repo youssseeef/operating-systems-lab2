@@ -82,16 +82,20 @@ void threadedMatMultPerElement()
     printf("threadedMatMultPerElement function\n");
     pthread_t threads[X*Z];
 
-    int i = 0;
-    for(int i = 0; i < X*Z ; i++){
-         error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)threadArgs);
+		// create the thread workers
+    int i;
+    for(i = 0; i < X * Z ; i++){
+			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)threadArgs);
        if (error) {
           printf("ERROR; return code from pthread_create() is %d\n", error);
           exit(-1);
-          }
+        }
     }
 
     // Join the X*Z threads
+		for(i = 0; i < X * Z ; i++){
+			(void) pthread_join(threads[i], NULL);
+		}
 
     // Print the elements of C
 }
