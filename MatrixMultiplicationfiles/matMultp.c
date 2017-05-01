@@ -1,7 +1,7 @@
 #include<stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-
+#include <stdint.h>
 /* number of matrix columns and rows */
 #define X 2
 #define Y 3
@@ -67,13 +67,13 @@ void *dotProductThreadElem(void *threadArgs)
 // Element by element threaded calculation
 {
     // Exctract the passed arguments from the threadArgs structure
-     int r = thread_data_array[(int)threadArgs].row;
-     int c = thread_data_array[(int)threadArgs].column;
+     int r = thread_data_array[(int)(uintptr_t)threadArgs].row;
+     int c = thread_data_array[(int)(uintptr_t)threadArgs].column;
 
     // Calculate the dotProduct
     int i;
     for (i = 0; i < Y; i++) {
-      thread_data_array[(int)threadArgs].value += ((A[r] [i]) * (B[i] [c]));
+      thread_data_array[(int)(uintptr_t)threadArgs].value += ((A[r] [i]) * (B[i] [c]));
     }
 
     // printf("%d \n", thread_data_array[(int)threadArgs]);
@@ -112,7 +112,7 @@ void threadedMatMultPerElement()
 		// create the thread workers
     int i;
     for(i = 0; i < X * Z ; i++){
-			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)i);
+			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)(uintptr_t)i);
        if (error) {
           printf("ERROR; return code from pthread_create() is %d\n", error);
           exit(-1);
