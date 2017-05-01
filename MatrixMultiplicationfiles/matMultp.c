@@ -1,4 +1,4 @@
-```#include <stdio.h>
+#include<stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
 
@@ -7,12 +7,9 @@
 #define Y 3
 #define Z 2
 
-int A[X][Y] = {{1,2,3},{4,5,6}};
-int B[Y][Z] = {{7,8},{9,10},{11,12}};
+int A[X][Y] = {{1, 2, 3}, {4, 5, 6}};
+int B[Y][Z] = {{7, 8}, {9, 10}, {11, 12}};
 int C[X][Z];
-
-
-
 
 /*** functions for non threaded multiplications ****/
 int dotProduct(int r, int c)
@@ -23,29 +20,28 @@ int dotProduct(int r, int c)
 
     int i, sum = 0;
     // loop over the rows of A and the columns of B
-    for(i = 0; i < Y; i++) {
-        //printf("%d \n", B[0][0] );
-        sum += (A[r][i] * B[i][c]);
+    for (i = 0; i < Y; i++) {
+			//printf("%d \n", B[0][0] );
+			sum += (A[r][i] * B[i][c]);
     }
     return sum;
 }
 void nonThreadedMatMult()
 {
     //printf("nonThreadedMatMult function is not implemented yet\n");
-    int i,j =0;
-    for(i =0; i<X; i++){
-        for(j =0; j<Y; j++){
-            C[i][j] = dotProduct(i,j);
-            printf("%d\n",C[i][j]);
-        }
-    }
+		int i, j = 0;
+		for (i = 0; i < X; i++) {
+			for (j = 0; j < Z; j++) {
+				C[i][j] = dotProduct(i, j);
+				printf("%d\n", C[i][j]);
+			}
+		}
     //printf("%d\n ", dotProduct(0, 0));
     // Loop over every point in the matrix C and calculate it by calling
     // the dot product fuction
 
     // Print the elements of C
 }
-
 
 /*** functions for threaded element multiplications ****/
 
@@ -60,7 +56,7 @@ struct thread_data
     //value of row
     int value;
 };
-struct thread_data thread_data_array[X*Z];
+struct thread_data thread_data_array[X * Z];
 
 void *dotProductThreadElem(void *threadArgs)
 // Element by element threaded calculation
@@ -72,20 +68,37 @@ void *dotProductThreadElem(void *threadArgs)
     // Exit the thread
 }
 
+void fillTheArrayOfStructsWithData()
+{
+    int i, j, a;
+    a = 0;
+
+    for (i = 0; i < X; i++)
+    {
+		for (j = 0; j < Z; j++)
+		{
+			thread_data_array[a].row = i;
+			thread_data_array[a].column = j;
+			a++;
+		}
+    }
+}
+
 void threadedMatMultPerElement()
 {
-	pthread_attr_t attr;
-	/* Initialize and set thread detached attribute */
-	pthread_attr_init(&attr);
-	pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-
+	fillTheArrayOfStructsWithData();
+    pthread_attr_t attr;
+    /* Initialize and set thread detached attribute */
+    pthread_attr_init(&attr);
+    pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
     printf("threadedMatMultPerElement function\n");
-    pthread_t threads[X*Z];
+
+		pthread_t threads[X*Z];
 
 		// create the thread workers
     int i;
     for(i = 0; i < X * Z ; i++){
-			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)threadArgs);
+			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)thread_data_array);
        if (error) {
           printf("ERROR; return code from pthread_create() is %d\n", error);
           exit(-1);
