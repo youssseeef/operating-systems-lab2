@@ -30,12 +30,17 @@ void nonThreadedMatMult()
 {
     //printf("nonThreadedMatMult function is not implemented yet\n");
 		int i, j = 0;
+    printf("Non-threaded C elements: \n");
 		for (i = 0; i < X; i++) {
 			for (j = 0; j < Z; j++) {
 				C[i][j] = dotProduct(i, j);
 				printf("%d\n", C[i][j]);
 			}
 		}
+    printf("End of Non-threaded C elements \n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
     //printf("%d\n ", dotProduct(0, 0));
     // Loop over every point in the matrix C and calculate it by calling
     // the dot product fuction
@@ -62,10 +67,19 @@ void *dotProductThreadElem(void *threadArgs)
 // Element by element threaded calculation
 {
     // Exctract the passed arguments from the threadArgs structure
+     int r = thread_data_array[(int)threadArgs].row;
+     int c = thread_data_array[(int)threadArgs].column;
 
     // Calculate the dotProduct
+    int i;
+    for (i = 0; i < Y; i++) {
+      thread_data_array[(int)threadArgs].value += ((A[r] [i]) * (B[i] [c]));
+    }
+
+    // printf("%d \n", thread_data_array[(int)threadArgs]);
 
     // Exit the thread
+    pthread_exit(NULL);
 }
 
 void fillTheArrayOfStructsWithData()
@@ -91,14 +105,14 @@ void threadedMatMultPerElement()
     /* Initialize and set thread detached attribute */
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-    printf("threadedMatMultPerElement function\n");
+    // printf("threadedMatMultPerElement function\n");
 
 		pthread_t threads[X*Z];
 
 		// create the thread workers
     int i;
     for(i = 0; i < X * Z ; i++){
-			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)&thread_data_array[i]);
+			int error = pthread_create(&threads[i], &attr, dotProductThreadElem, (void *)i);
        if (error) {
           printf("ERROR; return code from pthread_create() is %d\n", error);
           exit(-1);
@@ -118,7 +132,7 @@ void threadedMatMultPerElement()
 
 void threadedMatMultPerRow()
 {
-    printf("threadedMatMultPerRow function is not implemented yet\n");
+    // printf("threadedMatMultPerRow function is not implemented yet\n");
 }
 
 int main(int argc, char *argv[])
@@ -134,7 +148,11 @@ int main(int argc, char *argv[])
     nonThreadedMatMult();
     threadedMatMultPerElement();
     threadedMatMultPerRow();
-	printf("%d\n",thread_data_array[1].value);
+    printf("thread data array values: \n");
+    int i;
+    for (i = 0; i < X*Z; i++) {
+      printf("%d\n",thread_data_array[i].value);
+    }
+
     return 0;
 }
-
