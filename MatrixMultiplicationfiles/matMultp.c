@@ -60,6 +60,9 @@ struct thread_data
     int column;
     //value of row
     int value;
+
+    // computed row
+    int ret_row;
 };
 struct thread_data thread_data_array[X * Z];
 
@@ -125,6 +128,15 @@ void threadedMatMultPerElement()
 		}
 
     // Print the elements of C
+    printf("thread data array values for per element threading: \n");
+    int j;
+    for (j = 0; j < X*Z; j++) {
+      printf("%d\n",thread_data_array[j].value);
+    }
+    printf("end of per element threading: \n");
+    printf("\n");
+    printf("\n");
+    printf("\n");
 }
 
 /*** functions for threaded row multiplications ****/
@@ -148,11 +160,6 @@ int main(int argc, char *argv[])
     nonThreadedMatMult();
     threadedMatMultPerElement();
     threadedMatMultPerRow();
-    printf("thread data array values: \n");
-    int i;
-    for (i = 0; i < X*Z; i++) {
-      printf("%d\n",thread_data_array[i].value);
-    }
 
     return 0;
 }
