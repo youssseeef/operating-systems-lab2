@@ -62,7 +62,7 @@ struct thread_data
     int value;
 
     // computed row
-    int ret_row;
+    int ret_row[X];
 };
 struct thread_data thread_data_array[X * Z];
 
@@ -78,6 +78,32 @@ void *dotProductThreadElem(void *threadArgs)
     for (i = 0; i < Y; i++) {
       thread_data_array[(int)(uintptr_t)threadArgs].value += ((A[r] [i]) * (B[i] [c]));
     }
+
+    // printf("%d \n", thread_data_array[(int)threadArgs]);
+
+    // Exit the thread
+    pthread_exit(NULL);
+}
+
+
+void *dotProductThreadRow(void *threadArgs)
+// Element by element threaded calculation
+{
+    // Exctract the passed arguments from the threadArgs structure
+     int r = thread_data_array[(int)(uintptr_t)threadArgs].row;
+     int c = thread_data_array[(int)(uintptr_t)threadArgs].column;
+
+    // Calculate the dotProduct
+    int i, rowVal, ri;
+    for (ri = 0; ri < X; ri++) {
+      for (i = 0; i < Z; i++) {
+        rowVal += ((A[ri] [i]) * (B[i] [c]));
+      }
+      thread_data_array[(int)(uintptr_t)threadArgs].ret_row[ri] = rowVal;
+      printf("row value: ");
+      printf("%d\n", rowVal);
+    }
+
 
     // printf("%d \n", thread_data_array[(int)threadArgs]);
 
@@ -144,7 +170,34 @@ void threadedMatMultPerElement()
 
 void threadedMatMultPerRow()
 {
-    // printf("threadedMatMultPerRow function is not implemented yet\n");
+    printf("threadedMatMultPerRow function start \n");
+
+
+    fillTheArrayOfStructsWithData();
+      pthread_attr_t attr;
+      /* Initialize and set thread detached attribute */
+      pthread_attr_init(&attr);
+      pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+      // printf("threadedMatMultPerElement function\n");
+
+  		pthread_t threads[X];
+
+  		// create the thread workers
+      int i;
+      for(i = 0; i < X  ; i++){
+  			int error = pthread_create(&threads[i], &attr, dotProductThreadRow, (void *)(uintptr_t)i);
+         if (error) {
+            printf("ERROR; return code from pthread_create() is %d\n", error);
+            exit(-1);
+          }
+      }
+
+      // Join the X*Z threads
+  		for(i = 0; i < X  ; i++){
+  			(void) pthread_join(threads[i], NULL);
+  		}
+
+
 }
 
 int main(int argc, char *argv[])
