@@ -92,18 +92,28 @@ void *dotProductThreadRow(void *threadArgs)
 // Element by element threaded calculation
 {
     // Exctract the passed arguments from the threadArgs structure
+    // get the desired row
      int r = thread_data_row_array[(int)(uintptr_t)threadArgs].row;
 
     // Calculate the dotProduct
-    int i, rowVal, ri;
-    for (ri = 0; ri < X; ri++) {
+    // calculate the row values
+    int i, rowVal, ri, val;
+    rowVal = 0;
+
+    // loop over all the elements in a certain row in A
+    for (ri = 0; ri < Y; ri++) {
+      // create a dot product between each element in the row with the column and sum them to get an element
+      // loop over the element of B's columns
       for (i = 0; i < Z; i++) {
-        rowVal += ((A[ri] [i]) * (B[i] [c]));
+        // get the element's dot product
+        val += ((A[r] [ri]) * (B[ri] [i]));
       }
-      thread_data_row_array[(int)(uintptr_t)threadArgs].ret_row[ri] = rowVal;
-      printf("row value: ");
-      printf("%d\n", rowVal);
     }
+
+    // put the row value in the output array
+    thread_data_row_array[(int)(uintptr_t)threadArgs].ret_row[ri] = rowVal;
+    printf("row value: ");
+    printf("%d\n", rowVal);
 
 
     // printf("%d \n", thread_data_array[(int)threadArgs]);
