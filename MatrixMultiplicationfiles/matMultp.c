@@ -64,7 +64,9 @@ struct thread_data
     // computed row
     int ret_row[X];
 };
+
 struct thread_data thread_data_array[X * Z];
+struct thread_data thread_data_row_array[X];
 
 void *dotProductThreadElem(void *threadArgs)
 // Element by element threaded calculation
@@ -90,8 +92,7 @@ void *dotProductThreadRow(void *threadArgs)
 // Element by element threaded calculation
 {
     // Exctract the passed arguments from the threadArgs structure
-     int r = thread_data_array[(int)(uintptr_t)threadArgs].row;
-     int c = thread_data_array[(int)(uintptr_t)threadArgs].column;
+     int r = thread_data_row_array[(int)(uintptr_t)threadArgs].row;
 
     // Calculate the dotProduct
     int i, rowVal, ri;
@@ -99,7 +100,7 @@ void *dotProductThreadRow(void *threadArgs)
       for (i = 0; i < Z; i++) {
         rowVal += ((A[ri] [i]) * (B[i] [c]));
       }
-      thread_data_array[(int)(uintptr_t)threadArgs].ret_row[ri] = rowVal;
+      thread_data_row_array[(int)(uintptr_t)threadArgs].ret_row[ri] = rowVal;
       printf("row value: ");
       printf("%d\n", rowVal);
     }
@@ -113,17 +114,20 @@ void *dotProductThreadRow(void *threadArgs)
 
 void fillTheArrayOfStructsWithData()
 {
-    int i, j, a;
+    int i, j, a, b;
     a = 0;
+    b = 0;
 
     for (i = 0; i < X; i++)
     {
-		for (j = 0; j < Z; j++)
-		{
-			thread_data_array[a].row = i;
-			thread_data_array[a].column = j;
-			a++;
+		for (j = 0; j < Z; j++) {
+      thread_data_array[a].row = i;
+      thread_data_array[a].column = j;
+      thread_data_row_array[a].row = i;
+      a++;
 		}
+    thread_data_row_array[b].row = i;
+    ++b;
     }
 }
 
