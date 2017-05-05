@@ -94,29 +94,9 @@ void *dotProductThreadRow(void *threadArgs)
     // Exctract the passed arguments from the threadArgs structure
     // get the desired row
      int r = thread_data_row_array[(int)(uintptr_t)threadArgs].row;
-
-    // Calculate the dotProduct
-    // calculate the row values
-    int i, rowVal, ri, val;
-    rowVal = 0;
-
-    // loop over all the elements in a certain row in A
-    for (ri = 0; ri < Y; ri++) {
-      // create a dot product between each element in the row with the column and sum them to get an element
-      // loop over the element of B's columns
-      for (i = 0; i < Z; i++) {
-        // get the element's dot product
-        val += ((A[r] [ri]) * (B[ri] [i]));
-      }
-    }
-
-    // put the row value in the output array
-    thread_data_row_array[(int)(uintptr_t)threadArgs].ret_row[ri] = rowVal;
-    printf("row value: ");
-    printf("%d\n", rowVal);
+     printf("row thread number = %d\n", r);
 
 
-    // printf("%d \n", thread_data_array[(int)threadArgs]);
 
     // Exit the thread
     pthread_exit(NULL);
@@ -133,7 +113,6 @@ void fillTheArrayOfStructsWithData()
 		for (j = 0; j < Z; j++) {
       thread_data_array[a].row = i;
       thread_data_array[a].column = j;
-      thread_data_row_array[a].row = i;
       a++;
 		}
     thread_data_row_array[b].row = i;
@@ -141,14 +120,25 @@ void fillTheArrayOfStructsWithData()
     }
 }
 
+
+void fillTheArrayOfArrStructsWithData() {
+  int i, b;
+  b = 0;
+
+  for (i = 0; i < X; i++)
+  {
+    thread_data_row_array[b].row = i;
+    ++b;
+  }
+}
+
 void threadedMatMultPerElement()
 {
-	fillTheArrayOfStructsWithData();
+    fillTheArrayOfStructsWithData();
     pthread_attr_t attr;
     /* Initialize and set thread detached attribute */
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
-    // printf("threadedMatMultPerElement function\n");
 
 		pthread_t threads[X*Z];
 
@@ -184,31 +174,29 @@ void threadedMatMultPerElement()
 
 void threadedMatMultPerRow()
 {
-    printf("threadedMatMultPerRow function start \n");
-
-
-    fillTheArrayOfStructsWithData();
-      pthread_attr_t attr;
+      fillTheArrayOfArrStructsWithData();
+      printf("threadedMatMultPerRow function start \n");
+      pthread_attr_t arr_attr;
       /* Initialize and set thread detached attribute */
-      pthread_attr_init(&attr);
-      pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
+      pthread_attr_init(&arr_attr);
+      pthread_attr_setdetachstate(&arr_attr, PTHREAD_CREATE_JOINABLE);
       // printf("threadedMatMultPerElement function\n");
 
-  		pthread_t threads[X];
+  		pthread_t arr_threads[X];
 
   		// create the thread workers
-      int i;
-      for(i = 0; i < X  ; i++){
-  			int error = pthread_create(&threads[i], &attr, dotProductThreadRow, (void *)(uintptr_t)i);
+      int j;
+      for(j = 0; j < X  ; j++){
+  			int error = pthread_create(&arr_threads[j], &arr_attr, dotProductThreadRow, (void *)(uintptr_t)j);
          if (error) {
             printf("ERROR; return code from pthread_create() is %d\n", error);
             exit(-1);
           }
       }
 
-      // Join the X*Z threads
-  		for(i = 0; i < X  ; i++){
-  			(void) pthread_join(threads[i], NULL);
+      // Join the X threads
+  		for(j = 0; j < X  ; j++){
+  			(void) pthread_join(arr_threads[j], NULL);
   		}
 
 
@@ -224,8 +212,8 @@ int main(int argc, char *argv[])
     //     for (j= 0;j<Z;++j)
     //         B[i][j] = i * Z + j;
 
-    nonThreadedMatMult();
-    threadedMatMultPerElement();
+    // nonThreadedMatMult();
+    // threadedMatMultPerElement();
     threadedMatMultPerRow();
 
     return 0;
