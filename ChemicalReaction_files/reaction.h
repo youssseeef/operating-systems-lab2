@@ -3,11 +3,9 @@
 
 struct reaction {
 	// FILL ME IN - OKAY
-	pthread_mutex_t ourMutex;
-	pthread_cond_t condO,condH;
-	int countO;
-	int countH;
-
+	pthread_mutex_t lock;
+	pthread_cond_t react, newH;
+	int hCount;
 };
 
 void reaction_init(struct reaction *reaction);
