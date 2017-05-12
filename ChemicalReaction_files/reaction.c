@@ -47,5 +47,22 @@ void reaction_h(struct reaction *reaction)
 
 void reaction_o(struct reaction *reaction)
 {
-	// FILL ME IN
+	// lock the critical section
+  pthread_mutex_lock(&reaction->ourMutex);
+
+  // check the count of O atoms
+  if (reaction->countO == 1) {
+    // signal the condO
+    pthread_cond_wait(&reaction->condO, &reaction->ourMutex);
+    // check for the H count
+    if (reaction->countH == 2) {
+      make_water();
+    }
+  } else {
+    // create a new H atom
+    ++reaction->countO;
+  }
+
+  // realease access to the critical section
+  pthread_mutex_unlock(&reaction->ourMutex);
 }
