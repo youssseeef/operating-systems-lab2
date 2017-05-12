@@ -18,13 +18,30 @@ void reaction_init(struct reaction *reaction)
 
   // init the condition variables
   pthread_cond_init(&reaction->condO, 0);
-  pthread_cond_init(&reaction->condP, 0);
+  pthread_cond_init(&reaction->condH, 0);
 }
 
 
 void reaction_h(struct reaction *reaction)
 {
-	// FILL ME IN
+  // lock the critical section
+  pthread_mutex_lock(&reaction->ourMutex);
+
+  // check the count of H atoms
+  if (reaction->countH == 2) {
+    // signal the condH
+    pthread_cond_wait(&reaction->condH, &reaction->ourMutex);
+    // check for the o count
+    if (reaction->countO == 1) {
+      make_water();
+    }
+  } else {
+    // create a new H atom
+    ++reaction->countH;
+  }
+
+  // realease access to the critical section
+  pthread_mutex_unlock(&reaction->ourMutex);
 }
 
 

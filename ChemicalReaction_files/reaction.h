@@ -4,7 +4,7 @@
 struct reaction {
 	// FILL ME IN - OKAY
 	pthread_mutex_t ourMutex;
-	pthread_cond_t condO,condP;
+	pthread_cond_t condO,condH;
 	int countO;
 	int countH;
 
