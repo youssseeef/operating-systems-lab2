@@ -46,7 +46,8 @@ function from above, then we initialize an array of threads. We then run through
 * On our sample matrix, A(2x3), B(3x2) => (2x2).
 - In the element-wise threaded multiplication, we had 4 threads for our 2x2 matrix, because it contains four elements.
 - In the row-wise threaded multiplication, we had 2 threads for our 2x2 matrix, because it contains two rows.
-#4 Sample run
+#3 Sample run
+
 ```
 Non-threaded C elements: 
 58
