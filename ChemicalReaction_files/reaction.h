@@ -2,7 +2,12 @@
 #include <pthread.h>
 
 struct reaction {
-	// FILL ME IN
+	// FILL ME IN - OKAY
+	pthread_mutex_t ourMutex;
+	pthread_cond_t condO,condP;
+	int countO;
+	int countH;
+
 };
 
 void reaction_init(struct reaction *reaction);
