@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <stdint.h>
+#include <time.h>
 /* number of matrix columns and rows */
 #define X 2
 #define Y 3
@@ -28,6 +29,8 @@ int dotProduct(int r, int c)
 }
 void nonThreadedMatMult()
 {
+    clock_t begin = clock();
+
     //printf("nonThreadedMatMult function is not implemented yet\n");
 		int i, j = 0;
     printf("Non-threaded C elements: \n");
@@ -38,14 +41,19 @@ void nonThreadedMatMult()
 			}
 		}
     printf("End of Non-threaded C elements \n");
-    printf("\n");
-    printf("\n");
-    printf("\n");
+
     //printf("%d\n ", dotProduct(0, 0));
     // Loop over every point in the matrix C and calculate it by calling
     // the dot product fuction
 
     // Print the elements of C
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time Spent in single-threaded: %f\n",time_spent);
+    printf("\n");
+    printf("\n");
+    printf("\n");
+
 }
 
 /*** functions for threaded element multiplications ****/
@@ -84,7 +92,7 @@ void *dotProductThreadElem(void *threadArgs)
       thread_data_array[(int)(uintptr_t)threadArgs].value += ((A[r] [i]) * (B[i] [c]));
     }
 
-    // printf("%d \n", thread_data_array[(int)threadArgs]);
+    printf("Array value for row %d column %d: %d\n", r,c,thread_data_array[(int)(uintptr_t)threadArgs].value);
 
     // Exit the thread
     pthread_exit(NULL);
@@ -154,10 +162,12 @@ void threadedMatMultPerElement()
     fillTheArrayOfStructsWithData();
     pthread_attr_t attr;
     /* Initialize and set thread detached attribute */
+
     pthread_attr_init(&attr);
     pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_JOINABLE);
 
 		pthread_t threads[X*Z];
+    clock_t begin = clock();
 
 		// create the thread workers
     int i;
@@ -175,12 +185,17 @@ void threadedMatMultPerElement()
 		}
 
     // Print the elements of C
-    printf("thread data array values for per element threading: \n");
-    int j;
-    for (j = 0; j < X*Z; j++) {
-      printf("%d\n",thread_data_array[j].value);
-    }
+    // printf("thread data array values for per element threading: \n");
+    // int j;
+    // for (j = 0; j < X*Z; j++) {
+    //   printf("%d\n",thread_data_array[j].value);
+    // }
+    clock_t end = clock();
+
     printf("end of per element threading: \n");
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    printf("Time Spent in per-element-multi-threading : %f\n",time_spent);
+
     printf("\n");
     printf("\n");
     printf("\n");
@@ -192,6 +207,7 @@ void threadedMatMultPerElement()
 void threadedMatMultPerRow()
 {
       fillTheArrayOfArrStructsWithData();
+
       printf("threadedMatMultPerRow function start \n");
       pthread_attr_t attr;
       /* Initialize and set thread detached attribute */
@@ -200,6 +216,7 @@ void threadedMatMultPerRow()
       // printf("threadedMatMultPerElement function\n");
 
   		pthread_t threads[X];
+      clock_t begin = clock();
 
   		// create the thread workers
       int j;
@@ -213,8 +230,11 @@ void threadedMatMultPerRow()
 
       // Join the X threads
   		for(j = 0; j < X  ; j++){
-  			(void) pthread_join(threads[j], NULL);
+  			 (void) pthread_join(threads[j], NULL);
   		}
+      clock_t end = clock();
+      double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+      printf("Time Spent in per-row-single-threaded: %f\n",time_spent);
 
 
 }
