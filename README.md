@@ -55,19 +55,20 @@ Non-threaded C elements:
 139
 154
 End of Non-threaded C elements 
+Time Spent in single-threaded: 0.000028
 
 
 
 Element thread number = 0
-Element thread number = 3
-Element thread number = 1
+Array value for row 0 column 0: 58
 Element thread number = 2
-thread data array values for per element threading: 
-58
-64
-139
-154
+Array value for row 1 column 0: 139
+Element thread number = 3
+Array value for row 1 column 1: 154
+Element thread number = 1
+Array value for row 0 column 1: 64
 end of per element threading: 
+Time Spent in per-element-multi-threading : 0.000494
 
 
 
@@ -78,4 +79,7 @@ Elements of C's row: 64
 Row thread number = 1
 Elements of C's row: 139
 Elements of C's row: 154
+Time Spent in per-row-single-threaded: 0.000102
 ```
+* Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using
+a small example
