@@ -1,5 +1,5 @@
 # Operating Systems - Lab 2 Report
-1. Part 1: Matrix Multithreaded Multiplication
+1. Part 1: Matrix Multithreaded Multiplication\n
 .. We had to make some sample Matrix instead of the one provided in main just for testing purposes
 ```
 int A[X][Y] = {{1, 2, 3}, {4, 5, 6}};
