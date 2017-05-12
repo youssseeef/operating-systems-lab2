@@ -54,11 +54,11 @@ struct thread_data
 {
     // You may need this fill this struct to pass and receive data from
     // threads
-    //output row;
+    //output row
     int row;
-    //output column;
+    //output column
     int column;
-    //value of row
+    //value of element
     int value;
 
     // computed row
