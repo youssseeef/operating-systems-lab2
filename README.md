@@ -1,9 +1,9 @@
 #                   Operating Systems - Lab 2 Report
 ###                         Team Members
-#### * Amr Mohamed Elsayed 131
-#### * Mohamed Ahmed Abdelraouf 152
-#### * Mina Magued Mounir 222
-#### * Youssef Hanii Salama 244
+#### - Amr Mohamed Elsayed 131
+#### - Mohamed Ahmed Abdulraouf 152
+#### - Mina Magued Mounir 222
+#### - Youssef Hanii Salama 244
 ----------------------------------------------------------------
 ## Part 1: Matrix Multithreaded Multiplication  
 * We had to make some sample Matrix instead of the one provided in main just for testing purposes
@@ -12,7 +12,7 @@ int A[X][Y] = {{1, 2, 3}, {4, 5, 6}};
 int B[Y][Z] = {{7, 8}, {9, 10}, {11, 12}};
 int C[X][Z];
 ```
-* Implementing a single-threaded matrix multiplication was fairly easy, we implemented both 
+* Implementing a single-threaded matrix multiplication was fairly easy, we implemented both
 the dot product and the single threaded function provided
 
 * We have used the following structure
@@ -44,7 +44,7 @@ struct thread_data thread_data_row_array[X];
 fillTheArrayOfStructsWithData();
 fillTheArrayOfArrStructsWithData();
 ```
-We did though because the threads will run on a one-dimensional array, so we had to save the 2-dimensional 
+We did though because the threads will run on a one-dimensional array, so we had to save the 2-dimensional
 data in a 1-dimensional form, which is represented by the struct arrays defined above in both cases
 * Then we implemented dotProductThreadElem and dotProductThreadRow to calculate the dot product element-wise and row-wise respectively.
 * Inside threadedMatMultPerElement()/perRow(), we first initlaize the struct array by calling the corresponding
@@ -55,12 +55,12 @@ function from above, then we initialize an array of threads. We then run through
 ### Sample run
 
 ```
-Non-threaded C elements: 
+Non-threaded C elements:
 58
 64
 139
 154
-End of Non-threaded C elements 
+End of Non-threaded C elements
 Time Spent in single-threaded: 0.000028
 
 
@@ -73,12 +73,12 @@ Element thread number = 3
 Array value for row 1 column 1: 154
 Element thread number = 1
 Array value for row 0 column 1: 64
-end of per element threading: 
+end of per element threading:
 Time Spent in per-element-multi-threading : 0.000494
 
 
 
-threadedMatMultPerRow function start 
+threadedMatMultPerRow function start
 Row thread number = 0
 Elements of C's row: 58
 Elements of C's row: 64
