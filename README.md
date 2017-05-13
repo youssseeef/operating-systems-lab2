@@ -110,7 +110,7 @@ void reaction_init(struct reaction *reaction)
     pthread_cond_init(&reaction->newH, 0);
 }
 ```
-*implementing reaction_h()
+* implementing reaction_h()
 a. lock critical section
 b. signal the creation of a new h after increasing the count - down by 1
 c. block the reaction / down by one
@@ -133,7 +133,7 @@ void reaction_h(struct reaction *reaction)
     pthread_mutex_unlock(&reaction->lock);
 }
 ```
-*implementing reaction_o()
+* implementing reaction_o()
 a. while not enough oxygen atoms -> wait and block reaction
 b. makeWater() -> when ready
 c. substract two from hCount // reset counter
