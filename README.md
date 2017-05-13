@@ -84,7 +84,7 @@ Time Spent in per-row-single-threaded: 0.000102
 * Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using
 a small example
 ------------------------------------------------------------------------
-##Part 2: Water Reaction
+## Part 2: Water Reaction
 * For this part, we created the following struct in reaction.h:
 ```
 struct reaction {
@@ -139,7 +139,7 @@ b. makeWater() -> when ready
 c. substract two from hCount // reset counter
 d. up by two signals
 e. unlock.
-##sample run
+### sample run
 ```
 ./reaction 0
 Created 0 H and 200 O atoms (0.0% H), expecting 0 H2O molecules
