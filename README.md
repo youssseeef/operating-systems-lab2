@@ -1,10 +1,10 @@
 # Operating Systems - Lab 2 Report
 ---------------------------------------------------------------
 ### Team Members
-#### Amr Mohamed Elsayed 131
-#### Mohamed Ahmed Abdelraouf 152
-#### Mina Magued Mounir 222
-#### Youssef Hanii Salama 244
+#### * Amr Mohamed Elsayed 131
+#### * Mohamed Ahmed Abdelraouf 152
+#### * Mina Magued Mounir 222
+#### * Youssef Hanii Salama 244
 ----------------------------------------------------------------
 ## Part 1: Matrix Multithreaded Multiplication  
 * We had to make some sample Matrix instead of the one provided in main just for testing purposes
