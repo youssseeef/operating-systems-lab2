@@ -83,3 +83,60 @@ Time Spent in per-row-single-threaded: 0.000102
 ```
 * Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using
 a small example
+------------------------------------------------------------------------
+2. Part 2: Water Reaction
+* For this part, we created the following struct in reaction.h:
+```
+struct reaction {
+	pthread_mutex_t lock;
+	pthread_cond_t react, newH;
+	int hCount;
+};
+
+```
+- the struct contains one mutex(lock), two conditional variables (react and newH) and a counter for H atoms.
+- Then we have written the initialization function that initializes the struct
+```
+void reaction_init(struct reaction *reaction)
+{
+    // clear the counters
+    reaction->hCount = 0;
+
+    // init the mutex
+    pthread_mutex_init(&reaction->lock, 0);
+
+    // init the condition variables
+    pthread_cond_init(&reaction->react, 0);
+    pthread_cond_init(&reaction->newH, 0);
+}
+```
+*implementing reaction_h()
+a. lock
+b. signal the creation of a new h after increasing the count - down by 1
+c. wait for react
+d. unlock.
+```
+void reaction_h(struct reaction *reaction)
+{
+    // lock the critical section
+    pthread_mutex_lock(&reaction->lock);
+
+    ++reaction->hCount;
+    // signal the creation of a new H
+    // up by one
+    pthread_cond_signal(&reaction->newH);
+    // block the reaction
+    // down by one
+    pthread_cond_wait(&reaction->react, &reaction->lock);
+
+    // realease access to the critical section
+    pthread_mutex_unlock(&reaction->lock);
+}
+```
+*implementing reaction_h()
+a. lock
+b. while not enough oxygen atoms -> wait
+c. makeWater()
+d. substract two from hCount
+e. up by two signals
+f. unlock.
