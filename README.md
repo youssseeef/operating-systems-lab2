@@ -16,6 +16,7 @@ int C[X][Z];
 the dot product and the single threaded function provided
 
 * We have used the following structure
+
 ```
 struct thread_data
 {
@@ -31,15 +32,18 @@ struct thread_data
     // computed row
     int ret_row[X];
 };
-
 ```
+
 * We then defined two arrays of structs: One for element by element threaded multiplication and
 the other for row by row threaded multiplication
+
 ```
 struct thread_data thread_data_array[X * Z];
 struct thread_data thread_data_row_array[X];
 ```
+
 * We fill these arrays using the data from the matrices inside these functions
+
 ```
 fillTheArrayOfStructsWithData();
 fillTheArrayOfArrStructsWithData();
@@ -87,10 +91,12 @@ Elements of C's row: 139
 Elements of C's row: 154
 Time Spent in per-row-single-threaded: 0.000102
 ```
-* Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using a small example
+
+### Performance metrics are quite random because they depend on the processor usage. We think that this might be because we're using a small example
 ------------------------------------------------------------------------
 ## Part 2: Water Reaction
 * For this part, we created the following struct in reaction.h:
+
 ```
 struct reaction {
 	pthread_mutex_t lock;
@@ -101,6 +107,7 @@ struct reaction {
 ```
 - the struct contains one mutex(lock), two conditional variables (react and newH) and a counter for H atoms.
 - Then we have written the initialization function that initializes the struct
+
 ```
 void reaction_init(struct reaction *reaction)
 {
@@ -120,6 +127,7 @@ a. lock critical section
 b. signal the creation of a new h after increasing the count - down by 1
 c. block the reaction / down by one
 d. unlock critical section.
+
 ```
 void reaction_h(struct reaction *reaction)
 {
@@ -138,12 +146,14 @@ void reaction_h(struct reaction *reaction)
     pthread_mutex_unlock(&reaction->lock);
 }
 ```
+
 * implementing reaction_o()
 a. while not enough oxygen atoms -> wait and block reaction
 b. makeWater() -> when ready
 c. substract two from hCount // reset counter
 d. up by two signals
 e. unlock.
+
 ```
 void reaction_o(struct reaction *reaction)
 {
@@ -168,6 +178,7 @@ void reaction_o(struct reaction *reaction)
 }
 ```
 ### Sample run
+
 ```
 ./reaction 0
 Created 0 H and 200 O atoms (0.0% H), expecting 0 H2O molecules
