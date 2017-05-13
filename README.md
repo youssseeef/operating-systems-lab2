@@ -139,6 +139,29 @@ b. makeWater() -> when ready
 c. substract two from hCount // reset counter
 d. up by two signals
 e. unlock.
+```
+void reaction_o(struct reaction *reaction)
+{
+    pthread_mutex_lock(&reaction->lock);
+
+    // block until there are 2 H atoms
+    // down by one
+    while (reaction->hCount < 2) pthread_cond_wait(&reaction->newH, &reaction->lock);
+
+    // when ready create water
+    make_water();
+    // reset the counter
+    reaction->hCount -= 2;
+
+    // unblock the reaction
+    // up by two
+    pthread_cond_signal(&reaction->react);
+    pthread_cond_signal(&reaction->react);
+
+    // release access to the critical section
+    pthread_mutex_unlock(&reaction->lock);
+}
+```
 ### sample run
 ```
 ./reaction 0
