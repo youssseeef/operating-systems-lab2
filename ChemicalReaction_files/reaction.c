@@ -45,7 +45,7 @@ void reaction_o(struct reaction *reaction)
     // down by one
     while (reaction->hCount < 2) pthread_cond_wait(&reaction->newH, &reaction->lock);
 
-    // when ready craete water
+    // when ready create water
     make_water();
     // reset the counter
     reaction->hCount -= 2;
@@ -55,6 +55,6 @@ void reaction_o(struct reaction *reaction)
     pthread_cond_signal(&reaction->react);
     pthread_cond_signal(&reaction->react);
 
-    // realease access to the critical section
+    // release access to the critical section
     pthread_mutex_unlock(&reaction->lock);
 }

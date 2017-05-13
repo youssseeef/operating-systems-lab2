@@ -1,5 +1,5 @@
 # Operating Systems - Lab 2 Report
-1. Part 1: Matrix Multithreaded Multiplication  
+## Part 1: Matrix Multithreaded Multiplication  
 * We had to make some sample Matrix instead of the one provided in main just for testing purposes
 ```
 int A[X][Y] = {{1, 2, 3}, {4, 5, 6}};
@@ -84,7 +84,7 @@ Time Spent in per-row-single-threaded: 0.000102
 * Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using
 a small example
 ------------------------------------------------------------------------
-2. Part 2: Water Reaction
+##Part 2: Water Reaction
 * For this part, we created the following struct in reaction.h:
 ```
 struct reaction {
@@ -111,10 +111,10 @@ void reaction_init(struct reaction *reaction)
 }
 ```
 *implementing reaction_h()
-a. lock
+a. lock critical section
 b. signal the creation of a new h after increasing the count - down by 1
-c. wait for react
-d. unlock.
+c. block the reaction / down by one
+d. unlock critical section.
 ```
 void reaction_h(struct reaction *reaction)
 {
@@ -133,10 +133,48 @@ void reaction_h(struct reaction *reaction)
     pthread_mutex_unlock(&reaction->lock);
 }
 ```
-*implementing reaction_h()
-a. lock
-b. while not enough oxygen atoms -> wait
-c. makeWater()
-d. substract two from hCount
-e. up by two signals
-f. unlock.
+*implementing reaction_o()
+a. while not enough oxygen atoms -> wait and block reaction
+b. makeWater() -> when ready
+c. substract two from hCount // reset counter
+d. up by two signals
+e. unlock.
+##sample run
+```
+./reaction 0
+Created 0 H and 200 O atoms (0.0% H), expecting 0 H2O molecules
+Looks good!
+./reaction 0
+Created 0 H and 200 O atoms (0.0% H), expecting 0 H2O molecules
+Looks good!
+./reaction 20
+Created 35 H and 165 O atoms (17.5% H), expecting 17 H2O molecules
+Looks good!
+./reaction 20
+Created 40 H and 160 O atoms (20.0% H), expecting 20 H2O molecules
+Looks good!
+./reaction 40
+Created 83 H and 117 O atoms (41.5% H), expecting 41 H2O molecules
+Looks good!
+./reaction 40
+Created 81 H and 119 O atoms (40.5% H), expecting 40 H2O molecules
+Looks good!
+./reaction 60
+Created 128 H and 72 O atoms (64.0% H), expecting 64 H2O molecules
+Looks good!
+./reaction 60
+Created 120 H and 80 O atoms (60.0% H), expecting 60 H2O molecules
+Looks good!
+./reaction 80
+Created 167 H and 33 O atoms (83.5% H), expecting 33 H2O molecules
+Looks good!
+./reaction 80
+Created 161 H and 39 O atoms (80.5% H), expecting 39 H2O molecules
+Looks good!
+./reaction 100
+Created 200 H and 0 O atoms (100.0% H), expecting 0 H2O molecules
+Looks good!
+./reaction 100
+Created 200 H and 0 O atoms (100.0% H), expecting 0 H2O molecules
+Looks good!
+```
