@@ -162,7 +162,7 @@ void reaction_o(struct reaction *reaction)
     pthread_mutex_unlock(&reaction->lock);
 }
 ```
-### sample run
+### Sample run
 ```
 ./reaction 0
 Created 0 H and 200 O atoms (0.0% H), expecting 0 H2O molecules
