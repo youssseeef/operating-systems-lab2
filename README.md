@@ -1,5 +1,4 @@
 #                   Operating Systems - Lab 2 Report
----------------------------------------------------------------
 ###                         Team Members
 #### * Amr Mohamed Elsayed 131
 #### * Mohamed Ahmed Abdelraouf 152
@@ -88,8 +87,7 @@ Elements of C's row: 139
 Elements of C's row: 154
 Time Spent in per-row-single-threaded: 0.000102
 ```
-* Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using
-a small example
+* Performance metrics are quite random because it's dependent on the processor usage. We think that this might be because we're using a small example
 ------------------------------------------------------------------------
 ## Part 2: Water Reaction
 * For this part, we created the following struct in reaction.h:
