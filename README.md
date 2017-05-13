@@ -1,6 +1,6 @@
-# Operating Systems - Lab 2 Report
+#                   Operating Systems - Lab 2 Report
 ---------------------------------------------------------------
-<p style="text-align: center;">Team Members</p>
+###                         Team Members
 #### * Amr Mohamed Elsayed 131
 #### * Mohamed Ahmed Abdelraouf 152
 #### * Mina Magued Mounir 222
